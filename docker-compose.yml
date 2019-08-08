@@ -1,0 +1,128 @@
+version: '3'
+services:
+  cron:
+    image: fballiano/magento2-cron
+    depends_on:
+      - apache
+      - varnish
+    links:
+      - db
+      - redis
+      - redis-session
+      - apache
+      - varnish
+    volumes:
+      - ./src:/var/www/html
+      - ./.docker/varnish/varnish.secret:/varnish.secret
+      # Enable the next line if you want to add a custom php.ini
+      - ./.docker/cron/php.ini:/usr/local/etc/php/conf.d/999-customphp.ini
+    networks:
+      - magento2-network
+
+  ssl:
+    image: fballiano/nginx-ssl-for-magento2
+    depends_on:
+      - varnish
+    links:
+      - varnish
+    ports:
+      - "443:443"
+    networks:
+      - magento2-network
+
+  varnish:
+    image: fballiano/varnish
+    ports:
+      - "80:80"
+      - "6082:6082"
+    depends_on:
+      - apache
+    links:
+      - apache
+    volumes:
+      - ./.docker/varnish/varnish.vcl:/etc/varnish/default.vcl
+      - ./.docker/varnish/varnish.secret:/etc/varnish/secret
+    environment:
+      - CACHE_SIZE=2G
+    networks:
+      - magento2-network
+
+  apache:
+    image: rflo/magento2.3_php7.2_varnish
+    #build: .
+    ports:
+      - "66:80"
+    depends_on:
+      - db
+      - redis
+      - redis-session
+    links:
+      - db
+      - redis
+      - redis-session
+    volumes:
+      - ./src:/var/www/html
+      - ~/.composer/auth.json:/root/.composer/auth.json
+      - ~/.composer:/var/www/.composer
+      - ~/.npm:/var/www/.npm
+      # Enable the next line if you want to add a custom php.ini
+      - ./.docker/config/php.ini:/usr/local/etc/php/conf.d/999-customphp.ini
+    networks:
+      - magento2-network
+
+  db:
+    image: mariadb
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=magento2
+      - MYSQL_DATABASE=magento2
+      - MYSQL_USER=magento2
+      - MYSQL_PASSWORD=magento2
+    networks:
+      - magento2-network
+
+  redis:
+    image: redis
+    ports:
+      - 6379
+    networks:
+      - magento2-network
+
+  redis-session:
+    image: redis
+    ports:
+      - 6379
+    networks:
+      - magento2-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=magento2
+      - PMA_PASSWORD=magento2
+      - MYSQL_ROOT_PASSWORD=magento2
+    ports:
+      - 8888:80
+    networks:
+      - magento2-network
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - magento2-network
+
+networks:
+  magento2-network:
+    driver: bridge
+
+
+volumes:
+  dbdata:
+    driver: local

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+docker-compose exec -f ../docker-compose.yml --user www-data apache npm i grunt
+docker-compose exec -f ../docker-compose.yml --user www-data apache npm i
+./magento deploy:mode:set developer
