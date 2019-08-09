@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
-docker-compose -f ../docker-compose.yml up -d && \
+ls
+docker-compose -f docker-compose.yml up -d && \
 version=$(git describe --tags $(git rev-list --tags --max-count=1))
 echo "
 ===================== 🚀 Done 🚀 ===================
 
-      Web server: http://localhost
-      ⚙️ PHPMyAdmin: http://localhost:8080
+      Web server + Varnish : http://localhost
+      Web server - Varnish : http://localhost:66
+      ⚙️ PHPMyAdmin: http://localhost:8888
       ✉️ Local emails: http://localhost:8025
 
 ===================== 🚀 Done 🚀 ==================="
