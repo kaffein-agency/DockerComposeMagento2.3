@@ -10,8 +10,12 @@ Start docker:
 $ ./shell/start
 
 Install Magento 2 :
+
 - empty src directory
+
 $ ./shell/shell
+
 $ install-magento2
+
 - copy .docker/magento/env in src/app/etc
 
