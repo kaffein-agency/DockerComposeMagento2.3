@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+docker-compose exec --user www-data db mysql -u magento2 --password=magento2

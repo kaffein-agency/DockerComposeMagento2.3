@@ -1,0 +1,12 @@
+#!/bin/bash
+
+while getopts u: option
+do
+    case "${option}"
+in
+    u) url=${OPTARG};;
+esac
+done
+
+docker-compose exec --user www-data db mysql -u magento2 --password=magento2 -e "USE magento2; UPDATE `core_config_data` SET `value` = '${url}  ' WHERE `core_config_data`.`config_id` = 1; "
+docker-compose exec --user www-data db mysql -u magento2 --password=magento2 -e "USE magento2; UPDATE `core_config_data` SET `value` = '${url}  ' WHERE `core_config_data`.`config_id` = 2; "

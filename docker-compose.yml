@@ -52,6 +52,8 @@ services:
     #build: .
     ports:
       - "66:80"
+      - "9001:9000" # xdebug
+      # - "35729:35729" # live reload
     depends_on:
       - db
       - redis
@@ -67,6 +69,9 @@ services:
       - ~/.npm:/var/www/.npm
       # Enable the next line if you want to add a custom php.ini
       - ./.docker/config/php.ini:/usr/local/etc/php/conf.d/999-customphp.ini
+    environment:
+      XDEBUG_CONFIG: "remote_host=localhost"
+      PHP_IDE_CONFIG: "serverName=Docker"
     networks:
       - magento2-network
 

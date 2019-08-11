@@ -7,15 +7,13 @@ https://github.com/clean-docker/Magento2 and https://github.com/fballiano/docker
 
 
 Start docker:
-$ ./shell/start
+```shell
+$ ./cmd/start
+```
 
 Install Magento 2 :
-
 - empty src directory
-
-$ ./shell/shell
-
-$ install-magento2
-
+- ``` $ ./cmd/shell ```
+- ``` $ install-magento2 ```
 - copy .docker/magento/env in src/app/etc
 
