@@ -67,6 +67,7 @@ services:
       - ~/.composer/auth.json:/root/.composer/auth.json
       - ~/.composer:/var/www/.composer
       - ~/.npm:/var/www/.npm
+      - ./.docker/config/magento/env.php:/var/www/env.sample.php
       # Enable the next line if you want to add a custom php.ini
       - ./.docker/config/php.ini:/usr/local/etc/php/conf.d/999-customphp.ini
     environment:
@@ -80,7 +81,8 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - dbdata:/var/lib/mysql
+      - ./.docker/db/dbdata:/var/lib/mysql
+      - ./.docker/db/home:/home
     environment:
       - MYSQL_ROOT_PASSWORD=magento2
       - MYSQL_DATABASE=magento2
@@ -107,7 +109,7 @@ services:
     image: phpmyadmin/phpmyadmin
     environment:
       - PMA_HOST=db
-      - PMA_USER=magento2
+      - PMA_USER=root
       - PMA_PASSWORD=magento2
       - MYSQL_ROOT_PASSWORD=magento2
     ports:

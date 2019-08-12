@@ -1,3 +1,12 @@
 #!/usr/bin/env bash
 
-docker-compose exec --user www-data db mysql -u magento2 --password=magento2
+if [ -z "$1" -a -z "$2" ]
+  then
+    docker-compose exec --user www-data db mysql -u magento2 --password=magento2
+elif [ ! -z "$1" -a -z "$2" ]
+  then
+    docker-compose exec --user www-data db mysql -u $1 --password=magento2
+else
+    docker-compose exec --user www-data db mysql -u $1 --password=$2
+fi
+

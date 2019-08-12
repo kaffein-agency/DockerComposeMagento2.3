@@ -1,7 +1,18 @@
 #!/usr/bin/env bash
-if [ -z "$1" ]
+
+if [ -z "$1" ] && [ -z "$2" ] && [ -z "$3" ]
   then
+    echo "Connecting with : docker-compose exec --user www-data apache bash"
     docker-compose exec --user www-data apache bash
+elif [ -n "$1" ] && [ -z "$2" ] && [ -z "$3" ]
+  then
+    echo "Connecting with : docker-compose exec --user $1 apache bash"
+    docker-compose exec --user $1 apache bash
+elif [ -n "$1" ] && [ -n "$2" ] && [ -z "$3" ]
+  then
+    echo "Connecting with : docker-compose exec --user $1 $2 bash"
+    docker-compose exec --user $1 $2 bash
 else
-    docker-compose exec --user $@ apache bash
+    echo "Connecting with : docker-compose exec --user $1 $2 $3"
+    docker-compose exec --user $1 $2 $3
 fi
