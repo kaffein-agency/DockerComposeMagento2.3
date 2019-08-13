@@ -67,7 +67,7 @@ services:
       - ~/.composer/auth.json:/root/.composer/auth.json
       - ~/.composer:/var/www/.composer
       - ~/.npm:/var/www/.npm
-      - ./.docker/config/magento/env.php:/var/www/env.sample.php
+      - ./.docker/magento/env.php:/var/www/env.sample.php
       # Enable the next line if you want to add a custom php.ini
       - ./.docker/config/php.ini:/usr/local/etc/php/conf.d/999-customphp.ini
     environment:
