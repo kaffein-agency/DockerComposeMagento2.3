@@ -21,7 +21,7 @@ Install Magento 2 :
 | `./cmd/start` | If you continuing not using the CURL you can start your container manually. | |
 | `./cmd/stop` | Stop your project containers. | |
 | `./cmd/kill` | Stops containers and removes containers, networks, volumes, and images created to the specific project. | |
-| `./cmd/kill` | Stops All containers and removes All containers, All networks, All volumes, and All images. | |
+| `./cmd/reset-docker` | Stops All containers and removes All containers, All networks, All volumes, and All images. | |
 | `./cmd/shell` | Access your container. |`./cmd/shell root` |
 | `./cmd/magento` | Use the power of the Magento CLI.| |
 | `./cmd/n98` | Use the Magerun commands as you want.| |
