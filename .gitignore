@@ -1,2 +1,4 @@
 src/*
 .idea/
+.docker/db/dbdata/
+.docker/db/home/*
