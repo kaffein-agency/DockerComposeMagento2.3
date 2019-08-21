@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+docker exec -it docker-magento_db_1 mysqldump -h db -u magento2 -p magento2 > dump.sql
