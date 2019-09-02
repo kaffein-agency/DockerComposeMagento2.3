@@ -8,5 +8,8 @@ in
 esac
 done
 
+DIR="$(cd "$(dirname "$0")" && pwd)"
+
 docker-compose exec --user www-data db mysql -u magento2 --password=magento2 -e "USE magento2; UPDATE core_config_data SET value = 'http://${url}' WHERE core_config_data.path = 'web/unsecure/base_url'; "
 docker-compose exec --user www-data db mysql -u magento2 --password=magento2 -e "USE magento2; UPDATE core_config_data SET value = 'https://${url}' WHERE core_config_data.path = 'web/secure/base_url'; "
+$DIR/magento setup:upgrade
