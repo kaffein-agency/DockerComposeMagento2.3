@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
-docker-compose exec --user www-data apache /var/www/html/bin/magento setup:upgrade
-docker-compose exec --user www-data apache /var/www/html/bin/magento cache:flush
-docker-compose exec --user www-data apache /var/www/html/bin/magento cache:clean
-docker-compose exec --user www-data apache /var/www/html/bin/magento setup:di:compile
-docker-compose exec --user www-data apache /var/www/html/bin/magento setup:static-content:deploy -f en_GB fr_FR
 
+DIR="$(cd "$(dirname "$0")" && pwd)"
 
+$DIR/composer update &&
+$DIR/magento setup:upgrade &&
+$DIR/magento cache:clean &&
+$DIR/magento cache:flush &&
+$DIR/magento setup:di:compile &&
+$DIR/magento setup:static-content:deploy -f en_GB fr_FR &&
+$DIR/magento cache:enable &&
+$DIR/magento indexer:reindex
